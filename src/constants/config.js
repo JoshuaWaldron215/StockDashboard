@@ -5,5 +5,4 @@ export const chartConfig = {
     "1Y" : {days: 0, weeks: 0, months: 0, years: 1, resolution: "D"},
 };
 
-export const API_KEY = 'cpn41s1r01qtggbae8v0cpn41s1r01qtggbae8vg';
 

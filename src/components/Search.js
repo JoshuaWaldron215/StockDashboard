@@ -1,45 +1,63 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useContext, useState } from 'react'
+import { mockSearchResults } from '../constants/mock';
+import {XCircleIcon, MagnifyingGlassIcon} from "@heroicons/react/24/solid";
 import SearchResults from './SearchResults';
+import ThemeContext from '../context/ThemeContext';
 
-const API_KEY = 'cpn41s1r01qtggbae8v0cpn41s1r01qtggbae8vg';
+const Search = () => {
+    const [input, setInput] = useState("");
+    const [bestMatches, setBestMatches] = useState(mockSearchResults.result);
 
-const Search = ({ onSearch }) => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+const {darkMode} = useContext(ThemeContext);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.get(`https://finnhub.io/api/v1/search?q=${query}&token=${API_KEY}`);
-      if (response.data.result) {
-        setResults(response.data.result);
-      }
-    } catch (error) {
-      console.error("Error fetching search results", error);
-    }
-  };
+    const clear = () => {
+        setInput("");
+        setBestMatches([]);
+    };
 
-  const handleSelect = (symbol) => {
-    onSearch(symbol);
-    setResults([]);
-  };
+    const updateBestMatches = () => {
+        setBestMatches(mockSearchResults.result);
+    };
+
+
 
   return (
-    <div className="relative">
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full p-2 border rounded"
-          placeholder="Search for a stock symbol..."
+    <div
+      className={`flex items-center my-4 border-2 rounded-md relative z-50 w-96 ${
+        darkMode ? "bg-gray-900 border-gray-800" : "bg-white border-neutral-200"
+      }`}
+    >
+      <input
+        type="text"
+        value={input}
+        className={`w-full px-4 py-2 focus:outline-none rounded-md ${
+          darkMode ? "bg-gray-900" : null
+        }`}
+        placeholder="Search stock..."
+        onChange={(event) => setInput(event.target.value)}
+        onKeyPress={(event) => {
+          if (event.key === "Enter") {
+            updateBestMatches();
+          }
+        }}
         />
-        <button type="submit" className="hidden">Search</button>
-      </form>
-      {results.length > 0 && <SearchResults results={results} onSelect={handleSelect} />}
+
+        {input && (
+        <button onClick={clear} className="m-1">
+            <XCircleIcon className="h-4 w-4 fill-gray-500"/>
+        </button>
+        )}
+
+
+        <button onClick={updateBestMatches} className="h-8 w-8 bg-indigo-600 rounded-md flex justify-center items-center m-1 p-2">
+            <MagnifyingGlassIcon className="h-4 w-4 fill-gray-100"/>
+        </button>
+
+{input && bestMatches.length > 0 ? (
+<SearchResults results={bestMatches} /> ) : null}
+
     </div>
   );
 };
 
-export default Search;
+export default Search

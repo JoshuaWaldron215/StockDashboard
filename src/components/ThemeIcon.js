@@ -27,5 +27,5 @@ const ThemeIcon = () => {
         </button>
       );
     };
-    
+
     export default ThemeIcon;
