@@ -37,7 +37,7 @@ TECHNOLOGIES USED:
 
 	Alpha Vantage API: Provides real-time and historical stock data.
 
-<img width="1434" alt="Screenshot 2024-06-27 at 12 43 48 AM" src="https://github.com/JoshuaWaldron215/StockDashboard/assets/98724803/1086a17a-0cdb-42a7-bf52-9864a9322bb6">
+
 
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
